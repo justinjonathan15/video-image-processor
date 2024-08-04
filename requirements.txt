@@ -2,3 +2,4 @@ pillow
 piexif
 tqdm
 iptcinfo3
+gunicorn
