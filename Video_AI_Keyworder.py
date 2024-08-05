@@ -7,7 +7,7 @@ import shutil
 import moviepy.editor as mp
 from PIL import Image
 from io import BytesIO
-from openai import OpenAI
+import openai
 from dotenv import load_dotenv
 import csv
 
@@ -19,7 +19,7 @@ api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
     raise ValueError("API key not found. Please set the OPENAI_API_KEY environment variable.")
 
-client = OpenAI(api_key=api_key)
+openai.api_key = api_key
 
 # Function to encode the image to base64
 def encode_image(image):
