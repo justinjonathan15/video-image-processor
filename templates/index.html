@@ -1,21 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Keyword Wizard</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Keyword Wizard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-  <div class="container">
-    <h1>Welcome to the AI Keyword Wizard</h1>
+    <h1>Welcome to AI Keyword Wizard</h1>
     <ul>
-      <li><a href="{{ url_for('upload_image') }}">Upload Image</a></li>
-      <li><a href="{{ url_for('upload_video') }}">Upload Video</a></li>
-      <!-- Remove the following line as it causes the error -->
-      <!-- <li><a href="{{ url_for('register') }}">Register</a></li> -->
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('upload_image') }}">Upload Image</a></li>
+        <li><a href="{{ url_for('upload_video') }}">Upload Video</a></li>
+        <!-- <li><a href="{{ url_for('register') }}">Register</a></li> -->
     </ul>
-  </div>
 </body>
 </html>
-
