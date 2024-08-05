@@ -7,9 +7,12 @@ import shutil
 from PIL import Image
 import piexif
 import openai
+from dotenv import load_dotenv
 from iptcinfo3 import IPTCInfo
 
-# Get the API key from environment variables
+# Load environment variables from the specified path
+load_dotenv('/etc/secrets/OPENAI_API_KEY')
+
 api_key = os.getenv("OPENAI_API_KEY")
 
 if not api_key:
