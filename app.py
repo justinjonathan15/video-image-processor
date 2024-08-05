@@ -1,6 +1,9 @@
 import os
-from flask import Flask, request, render_template, redirect, url_for, send_file, flash
+from flask import Flask, request, render_template, redirect, url_for, send_file, session, flash
 from werkzeug.utils import secure_filename
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
@@ -39,16 +42,12 @@ def upload_image():
             os.system(f'python3 Image_AI_Keyworder.py')
             # Assuming the script processes images and saves them in the output folder
             output_file = os.path.join(app.config['OUTPUT_FOLDER'], filename)
-            if os.path.exists(output_file):
-                return send_file(output_file, as_attachment=True)
-            else:
-                flash('Processed file not found')
-                return redirect(request.url)
+            return send_file(output_file, as_attachment=True)
     return render_template('image.html')
 
 @app.route('/upload/video', methods=['GET', 'POST'])
 def upload_video():
-    if request.method == 'POST'):
+    if request.method == 'POST':
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
@@ -64,11 +63,7 @@ def upload_video():
             os.system(f'python3 Video_AI_Keyworder.py')
             # Assuming the script generates a CSV file in the output folder
             output_file = os.path.join(app.config['OUTPUT_FOLDER'], 'results.csv')
-            if os.path.exists(output_file):
-                return send_file(output_file, as_attachment=True)
-            else:
-                flash('Processed file not found')
-                return redirect(request.url)
+            return send_file(output_file, as_attachment=True)
     return render_template('video.html')
 
 if __name__ == '__main__':
