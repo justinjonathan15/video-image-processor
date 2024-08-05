@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Upload</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Welcome to Media Upload</h1>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('upload_video') }}">Upload Video</a></li>
+            <li><a href="{{ url_for('upload_image') }}">Upload Image</a></li>
+            {% if 'user_id' in session %}
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                <li><form action="{{ url_for('buy_tokens') }}" method="POST">
+                    <input type="number" name="amount" min="1" placeholder="Buy Tokens">
+                    <button type="submit">Buy</button>
+                </form></li>
+                <li>Tokens: {{ session['tokens'] }}</li>
+            {% else %}
+                <li><a href="{{ url_for('register') }}">Register</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</body>
+</html>
