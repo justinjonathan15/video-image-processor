@@ -2,19 +2,17 @@ import os
 from flask import Flask, request, render_template, redirect, url_for, send_file, flash
 from dotenv import load_dotenv
 
-# Load environment variables from the specified secret files
-load_dotenv('/etc/secrets/OPENAI_API_KEY')
-load_dotenv('/etc/secrets/SECRET_KEY')
+# Load environment variables directly
+openai_api_key = os.getenv("OPENAI_API_KEY")
+secret_key = os.getenv("SECRET_KEY")
 
 # Debug: Print to verify loading environment variables
-print("Loaded OPENAI_API_KEY:", os.getenv("OPENAI_API_KEY"))
-print("Loaded SECRET_KEY:", os.getenv("SECRET_KEY"))
+print("Loaded OPENAI_API_KEY:", openai_api_key)
+print("Loaded SECRET_KEY:", secret_key)
 
 # Initialize the Flask application
 app = Flask(__name__)
 
-# Load the secret key from the environment variable
-secret_key = os.getenv("SECRET_KEY")
 if not secret_key:
     raise ValueError("Secret key not found. Please set the SECRET_KEY environment variable.")
 
