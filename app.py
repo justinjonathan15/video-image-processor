@@ -1,6 +1,11 @@
 import os
 from flask import Flask, request, render_template, redirect, url_for, send_file, flash
 from werkzeug.utils import secure_filename
+from dotenv import load_dotenv
+
+# Load environment variables from /etc/secrets/<filename>
+load_dotenv('/etc/secrets/OPENAI_API_KEY')
+load_dotenv('/etc/secrets/SECRET_KEY')
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
