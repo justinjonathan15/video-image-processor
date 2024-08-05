@@ -1,17 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image and Video Processor</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Keyword Wizard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>Welcome to the Image and Video Processor</h1>
+  <div class="container">
+    <h1>Welcome to the AI Keyword Wizard</h1>
     <ul>
-        <li><a href="{{ url_for('upload_image') }}">Upload Image</a></li>
-        <li><a href="{{ url_for('upload_video') }}">Upload Video</a></li>
-        <!-- <li><a href="{{ url_for('register') }}">Register</a></li> -->
+      <li><a href="{{ url_for('upload_image') }}">Upload Image</a></li>
+      <li><a href="{{ url_for('upload_video') }}">Upload Video</a></li>
     </ul>
+  </div>
 </body>
 </html>
