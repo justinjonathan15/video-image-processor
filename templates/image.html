@@ -1,16 +1,19 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Image</title>
+    <title>Image and Video Processor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>Upload Image</h1>
-    <form action="{{ url_for('upload_image') }}" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" accept="image/*" required>
-        <button type="submit">Upload</button>
-    </form>
-    <a href="{{ url_for('index') }}">Back to Home</a>
+    <h1>Welcome to the Image and Video Processor</h1>
+    <ul>
+        <li><a href="{{ url_for('upload_image') }}">Upload Image</a></li>
+        <li><a href="{{ url_for('upload_video') }}">Upload Video</a></li>
+        <!-- Comment or remove the line below if it's causing issues -->
+        <!-- <li><a href="{{ url_for('register') }}">Register</a></li> -->
+    </ul>
 </body>
 </html>
+
