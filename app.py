@@ -1,13 +1,13 @@
 import os
 from flask import Flask, request, render_template, redirect, url_for, send_file, flash
 from werkzeug.utils import secure_filename
+from dotenv import load_dotenv
 
-# Load secret key from file
-with open('/etc/secrets/SECRET_KEY', 'r') as file:
-    secret_key = file.read().strip()
+# Load environment variables from the secrets directory
+load_dotenv('/etc/secrets/')
 
 app = Flask(__name__)
-app.secret_key = secret_key
+app.secret_key = os.getenv("SECRET_KEY")
 
 # Configuration
 app.config['UPLOAD_FOLDER'] = 'input'
