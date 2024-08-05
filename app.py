@@ -78,10 +78,16 @@ def charge():
     )
 
     session['paid'] = True
-    return redirect(url_for('upload'))
+    return redirect(url_for('choose_upload'))
 
-@app.route('/upload', methods=['GET', 'POST'])
-def upload():
+@app.route('/choose_upload')
+def choose_upload():
+    if not session.get('paid'):
+        return redirect(url_for('index'))
+    return render_template('choose_upload.html')
+
+@app.route('/upload/image', methods=['GET', 'POST'])
+def upload_image():
     if not session.get('paid'):
         return redirect(url_for('index'))
 
@@ -93,27 +99,48 @@ def upload():
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
-        if file and (allowed_image_file(file.filename) or allowed_video_file(file.filename)):
+        if file and allowed_image_file(file.filename):
             filename = secure_filename(file.filename)
-            if allowed_image_file(filename):
-                filepath = os.path.join(app.config['IMAGE_UPLOAD_FOLDER'], filename)
-                file.save(filepath)
-                # Process image file here or call your processing script
-                os.system(f'python3 Image_AI_Keyworder.py')
-                output_file = os.path.join(app.config['IMAGE_OUTPUT_FOLDER'], filename)
-            elif allowed_video_file(filename):
-                filepath = os.path.join(app.config['VIDEO_UPLOAD_FOLDER'], filename)
-                file.save(filepath)
-                # Process video file here or call your processing script
-                os.system(f'python3 Video_AI_Keyworder.py')
-                output_file = os.path.join(app.config['VIDEO_OUTPUT_FOLDER'], filename)
+            filepath = os.path.join(app.config['IMAGE_UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+            # Process image file here or call your processing script
+            os.system(f'python3 Image_AI_Keyworder.py')
+            output_file = os.path.join(app.config['IMAGE_OUTPUT_FOLDER'], filename)
             # Make sure the output_file exists before sending
             if os.path.exists(output_file):
                 return send_file(output_file, as_attachment=True)
             else:
                 flash('File processing failed.')
                 return redirect(request.url)
-    return render_template('upload.html')
+    return render_template('upload_image.html')
+
+@app.route('/upload/video', methods=['GET', 'POST'])
+def upload_video():
+    if not session.get('paid'):
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_video_file(file.filename):
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.config['VIDEO_UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+            # Process video file here or call your processing script
+            os.system(f'python3 Video_AI_Keyworder.py')
+            output_file = os.path.join(app.config['VIDEO_OUTPUT_FOLDER'], filename)
+            # Make sure the output_file exists before sending
+            if os.path.exists(output_file):
+                return send_file(output_file, as_attachment=True)
+            else:
+                flash('File processing failed.')
+                return redirect(request.url)
+    return render_template('upload_video.html')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8000)
