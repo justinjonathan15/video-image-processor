@@ -6,12 +6,9 @@ import shutil
 from PIL import Image
 import piexif
 import openai
-from dotenv import load_dotenv
 from iptcinfo3 import IPTCInfo
 
-# Load environment variables from the specified secret files
-load_dotenv('/etc/secrets/OPENAI_API_KEY')
-
+# Load environment variables directly
 api_key = os.getenv("OPENAI_API_KEY")
 
 # Debug: Print to verify loading the OPENAI_API_KEY
