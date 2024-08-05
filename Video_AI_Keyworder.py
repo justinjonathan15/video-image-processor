@@ -8,12 +8,9 @@ import moviepy.editor as mp
 from PIL import Image
 from io import BytesIO
 import openai
-from dotenv import load_dotenv
 import csv
 
-# Load environment variables from /etc/secrets/<filename>
-load_dotenv('/etc/secrets/OPENAI_API_KEY')
-
+# Get the API key from environment variables
 api_key = os.getenv("OPENAI_API_KEY")
 
 if not api_key:
