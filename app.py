@@ -3,22 +3,34 @@ from flask import Flask, request, render_template, redirect, url_for, send_file,
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 
-load_dotenv()
+# Load environment variables from the specified path
+load_dotenv('/etc/secrets/.env')  # Ensure this matches the path where your secrets are stored
 
+# Initialize the Flask application
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")
 
-# Configuration
-app.config['UPLOAD_FOLDER'] = 'input'
-app.config['OUTPUT_FOLDER'] = 'output'
-app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
+# Load the secret key from the environment variable
+secret_key = os.getenv("SECRET_KEY")
+if not secret_key:
+    raise ValueError("Secret key not found. Please set the SECRET_KEY environment variable.")
+
+app.secret_key = secret_key
+
+# Define the upload folder
+UPLOAD_FOLDER = 'input'
+OUTPUT_FOLDER = 'output'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 # Ensure the input and output directories exist
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-os.makedirs(app.config['OUTPUT_FOLDER'], exist_ok=True)
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['OUTPUT_FOLDER'] = OUTPUT_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/')
 def index():
@@ -27,44 +39,29 @@ def index():
 @app.route('/upload/image', methods=['GET', 'POST'])
 def upload_image():
     if request.method == 'POST':
+        # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
         file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(filepath)
-            # Run your image script here
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            # Process the file here or call your processing script
             os.system(f'python3 Image_AI_Keyworder.py')
-            # Assuming the script processes images and saves them in the output folder
             output_file = os.path.join(app.config['OUTPUT_FOLDER'], filename)
-            return send_file(output_file, as_attachment=True)
-    return render_template('image.html')
-
-@app.route('/upload/video', methods=['GET', 'POST'])
-def upload_video():
-    if request.method == 'POST':
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file:
-            filename = secure_filename(file.filename)
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(filepath)
-            # Run your video script here
-            os.system(f'python3 Video_AI_Keyworder.py')
-            # Assuming the script generates a CSV file in the output folder
-            output_file = os.path.join(app.config['OUTPUT_FOLDER'], 'results.csv')
-            return send_file(output_file, as_attachment=True)
-    return render_template('video.html')
+            # Make sure the output_file exists before sending
+            if os.path.exists(output_file):
+                return send_file(output_file, as_attachment=True)
+            else:
+                flash('File processing failed.')
+                return redirect(request.url)
+    return render_template('upload_image.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=8000)
