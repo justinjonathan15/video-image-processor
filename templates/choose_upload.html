@@ -1,1 +1,17 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Upload</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Choose Upload</h1>
+    <p>You have {{ session.tokens }} tokens remaining.</p>
+    <ul>
+        <li><a href="{{ url_for('upload_image') }}">Upload Image</a></li>
+        <li><a href="{{ url_for('upload_video') }}">Upload Video</a></li>
+    </ul>
+</body>
+</html>
