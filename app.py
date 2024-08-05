@@ -2,6 +2,10 @@ import os
 import stripe
 from flask import Flask, request, render_template, redirect, url_for, send_file, flash, session
 from werkzeug.utils import secure_filename
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Get API keys from environment variables
 openai_api_key = os.getenv("OPENAI_API_KEY")
