@@ -10,8 +10,8 @@ import openai
 from dotenv import load_dotenv
 from iptcinfo3 import IPTCInfo
 
-# Load environment variables from the specified path
-load_dotenv('/etc/secrets/.env')  # Ensure this matches the path where your secrets are stored
+# Load environment variables from /etc/secrets/.env file
+load_dotenv('/etc/secrets/.env')
 
 api_key = os.getenv("OPENAI_API_KEY")
 
