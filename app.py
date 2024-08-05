@@ -1,10 +1,14 @@
 import os
-from flask import Flask, request, render_template, redirect, url_for, send_file, session, flash
-from werkzeug.utils import secure_filename
+from flask import Flask, request, render_template, redirect, url_for, send_file, flash
 from dotenv import load_dotenv
 
-# Load environment variables from the specified path
-load_dotenv('/etc/secrets/.env')  # Ensure this matches the path where your secrets are stored
+# Load environment variables from the specified secret files
+load_dotenv('/etc/secrets/OPENAI_API_KEY')
+load_dotenv('/etc/secrets/SECRET_KEY')
+
+# Debug: Print to verify loading environment variables
+print("Loaded OPENAI_API_KEY:", os.getenv("OPENAI_API_KEY"))
+print("Loaded SECRET_KEY:", os.getenv("SECRET_KEY"))
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -39,19 +43,17 @@ def index():
 @app.route('/upload/image', methods=['GET', 'POST'])
 def upload_image():
     if request.method == 'POST':
-        # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
         file = request.files['file']
-        # if user does not select file, browser also
-        # submit an empty part without filename
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
             # Process the file here or call your processing script
             os.system(f'python3 Image_AI_Keyworder.py')
             output_file = os.path.join(app.config['OUTPUT_FOLDER'], filename)
