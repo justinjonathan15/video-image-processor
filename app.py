@@ -21,10 +21,6 @@ def allowed_file(filename):
 def index():
     return render_template('index.html')
 
-@app.route('/register')
-def register():
-    return render_template('register.html')
-
 @app.route('/upload/image', methods=['GET', 'POST'])
 def upload_image():
     if request.method == 'POST':
@@ -43,7 +39,11 @@ def upload_image():
             os.system(f'python3 Image_AI_Keyworder.py')
             # Assuming the script processes images and saves them in the output folder
             output_file = os.path.join(app.config['OUTPUT_FOLDER'], filename)
-            return send_file(output_file, as_attachment=True)
+            if os.path.exists(output_file):
+                return send_file(output_file, as_attachment=True)
+            else:
+                flash('Processed file not found')
+                return redirect(request.url)
     return render_template('image.html')
 
 @app.route('/upload/video', methods=['GET', 'POST'])
@@ -64,7 +64,11 @@ def upload_video():
             os.system(f'python3 Video_AI_Keyworder.py')
             # Assuming the script generates a CSV file in the output folder
             output_file = os.path.join(app.config['OUTPUT_FOLDER'], 'results.csv')
-            return send_file(output_file, as_attachment=True)
+            if os.path.exists(output_file):
+                return send_file(output_file, as_attachment=True)
+            else:
+                flash('Processed file not found')
+                return redirect(request.url)
     return render_template('video.html')
 
 if __name__ == '__main__':
