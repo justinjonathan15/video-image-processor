@@ -66,8 +66,8 @@ def update_image_keywords(image_path, keywords):
     img.save(image_path, "jpeg", quality="keep", exif=exif_bytes)
 
 # Define input and output folders
-input_folder = "input"
-output_folder = "output"
+input_folder = "input/images"
+output_folder = "output/images"
 
 # Create the output folder if it doesn't exist
 os.makedirs(output_folder, exist_ok=True)
