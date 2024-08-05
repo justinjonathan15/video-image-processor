@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 
 # Load environment variables from the secrets directory
-load_dotenv('/etc/secrets/')
+load_dotenv('/etc/secrets/.env')
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
@@ -52,7 +52,7 @@ def upload_image():
 
 @app.route('/upload/video', methods=['GET', 'POST'])
 def upload_video():
-    if request.method == 'POST'):
+    if request.method == 'POST':
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
