@@ -1,4 +1,3 @@
-# Import necessary libraries
 import os
 import base64
 import requests
@@ -10,18 +9,18 @@ import openai
 from dotenv import load_dotenv
 from iptcinfo3 import IPTCInfo
 
-# Load environment variables from /etc/secrets/.env file
-load_dotenv('/etc/secrets/.env')
+# Load environment variables from the specified secret files
+load_dotenv('/etc/secrets/OPENAI_API_KEY')
 
 api_key = os.getenv("OPENAI_API_KEY")
+
+# Debug: Print to verify loading the OPENAI_API_KEY
+print("Loaded OPENAI_API_KEY in Image_AI_Keyworder.py:", api_key)
 
 if not api_key:
     raise ValueError("API key not found. Please set the OPENAI_API_KEY environment variable.")
 
 openai.api_key = api_key
-
-# Debugging: Print the API key to confirm it's loaded
-print(f"Loaded OpenAI API Key: {api_key[:4]}...")
 
 # Function to encode the image to base64
 def encode_image(image_path):
