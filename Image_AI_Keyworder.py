@@ -6,7 +6,7 @@ import pickle
 import shutil
 from PIL import Image
 import piexif
-from openai import OpenAI
+import openai
 from dotenv import load_dotenv
 from iptcinfo3 import IPTCInfo
 
@@ -18,7 +18,7 @@ api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
     raise ValueError("API key not found. Please set the OPENAI_API_KEY environment variable.")
 
-client = OpenAI(api_key=api_key)
+openai.api_key = api_key
 
 # Function to encode the image to base64
 def encode_image(image_path):
