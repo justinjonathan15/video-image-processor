@@ -57,8 +57,8 @@ def merge_images(image1, image2):
     return result
 
 # Define input and output folders
-input_folder = "H:/coding/input"
-output_folder = "H:/coding/output"
+input_folder = "input/videos"
+output_folder = "output/videos"
 
 # Create the output folder if it doesn't exist
 os.makedirs(output_folder, exist_ok=True)
