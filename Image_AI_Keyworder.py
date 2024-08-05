@@ -25,19 +25,16 @@ def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
 
-
 # Function to check image dimensions
 def check_image_dimensions(image_path, max_width=510, max_height=510):
     with Image.open(image_path) as img:
         return img.size[0] <= max_width and img.size[1] <= max_height
-
 
 # Function to resize the image to 510x510 pixels
 def resize_image(image_path, output_path, target_size=(510, 510)):
     with Image.open(image_path) as img:
         img_resized = img.resize(target_size)
         img_resized.save(output_path)
-
 
 # Function to convert PNG to JPG
 def convert_png_to_jpg(image_path):
@@ -47,66 +44,31 @@ def convert_png_to_jpg(image_path):
         rgb_image.save(jpg_path, 'JPEG')
     return jpg_path
 
-
 # Function to update image title in EXIF data
 def update_image_title(image_path, new_title):
-    # Open the image
     img = Image.open(image_path)
-
-    # Get the existing EXIF data
     try:
         exif_dict = piexif.load(img.info["exif"])
     except (KeyError, TypeError, piexif.InvalidImageDataError):
-        # If there's no existing EXIF data, create an empty dictionary
-        exif_dict = {
-            "0th": {},
-            "Exif": {},
-            "GPS": {},
-            "1st": {},
-            "thumbnail": None,
-        }
-
-    # Update the title in the EXIF data
+        exif_dict = {"0th": {}, "Exif": {}, "GPS": {}, "1st": {}, "thumbnail": None}
     exif_dict["0th"][piexif.ImageIFD.ImageDescription] = new_title
-
-    # Convert the EXIF data back to binary format
     exif_bytes = piexif.dump(exif_dict)
-
-    # Save the image with updated EXIF data
     img.save(image_path, "jpeg", quality="keep", exif=exif_bytes)
-
 
 # Function to update keywords in EXIF data
 def update_image_keywords(image_path, keywords):
-    # Open the image
     img = Image.open(image_path)
-
-    # Get the existing EXIF data
     try:
         exif_dict = piexif.load(img.info["exif"])
     except (KeyError, TypeError, piexif.InvalidImageDataError):
-        # If there's no existing EXIF data, create an empty dictionary
-        exif_dict = {
-            "0th": {},
-            "Exif": {},
-            "GPS": {},
-            "1st": {},
-            "thumbnail": None,
-        }
-
-    # Update the keywords in the EXIF data
+        exif_dict = {"0th": {}, "Exif": {}, "GPS": {}, "1st": {}, "thumbnail": None}
     exif_dict["0th"][piexif.ImageIFD.XPKeywords] = ','.join(keywords).encode('utf-16')
-
-    # Convert the EXIF data back to binary format
     exif_bytes = piexif.dump(exif_dict)
-
-    # Save the image with updated EXIF data
     img.save(image_path, "jpeg", quality="keep", exif=exif_bytes)
 
-
 # Define input and output folders
-input_folder = "H:/coding/input"
-output_folder = "H:/coding/output"
+input_folder = "input"
+output_folder = "output"
 
 # Create the output folder if it doesn't exist
 os.makedirs(output_folder, exist_ok=True)
