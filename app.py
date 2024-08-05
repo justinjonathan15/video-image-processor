@@ -52,7 +52,7 @@ def upload_image():
 
 @app.route('/upload/video', methods=['GET', 'POST'])
 def upload_video():
-    if request.method == 'POST':
+    if request.method == 'POST'):
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
