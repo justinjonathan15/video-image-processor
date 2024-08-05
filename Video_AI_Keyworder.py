@@ -13,6 +13,9 @@ import csv
 # Get the API key from environment variables
 api_key = os.getenv("OPENAI_API_KEY")
 
+# Debug: Print to verify loading the OPENAI_API_KEY
+print("Loaded OPENAI_API_KEY in Video_AI_Keyworder.py:", api_key)
+
 if not api_key:
     raise ValueError("API key not found. Please set the OPENAI_API_KEY environment variable.")
 
