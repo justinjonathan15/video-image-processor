@@ -21,6 +21,8 @@
         </div>
         <button>Submit Payment</button>
     </form>
+    <a href="{{ url_for('upload_image') }}">Upload Image</a>
+    <a href="{{ url_for('upload_video') }}">Upload Video</a>
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         var stripe = Stripe('{{ stripe_publishable_key }}');
