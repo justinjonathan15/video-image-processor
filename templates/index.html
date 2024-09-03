@@ -13,20 +13,22 @@
 <body class="is-preload">
     <!-- Header -->
     <header id="header">
-        <a class="logo" href="index.html">AI Keyword Wizard</a>
-        <nav><a href="#menu">Menu</a></nav>
+        <div class="inner">
+            <a class="logo" href="index.html">AI Keyword Wizard</a>
+            <nav id="nav">
+                <a href="index.html">Home</a>
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <div class="account-info">
+                <span class="credits">{{ session.tokens }} Tokens</span>
+                <a href="#" class="button special small">More Credits</a>
+            </div>
+        </div>
     </header>
 
-    <!-- Nav -->
-    <nav id="menu">
-        <ul class="links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="elements.html">Elements</a></li>
-            <li><a href="generic.html">Generic</a></li>
-        </ul>
-    </nav>
-
-    <!-- Banner -->
+    <!-- Main Content -->
     <section id="banner">
         <div class="inner">
             <h1>AI Keyword Wizard</h1>
@@ -34,6 +36,7 @@
         </div>
         <video autoplay loop muted playsinline src="{{ url_for('static', filename='assets/images/banner.mp4') }}"></video>
     </section>
+
 
     <!-- Main Content -->
     <section class="wrapper">
